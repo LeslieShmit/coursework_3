@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "coursework-3"
+version = "0.1.0"
+description = ""
+authors = ["Vladislav Lukin <vladislavlukin090392@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+
+[tool.poetry.group.lint.dependencies]
+black = "^25.1.0"
+flake8 = "^7.2.0"
+mypy = "^1.15.0"
+isort = "^6.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
