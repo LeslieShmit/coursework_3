@@ -1,8 +1,10 @@
 import psycopg2
 
+
 class DBManager:
     """Класс для взаимодействия с базой данных"""
-    def __init__(self, database_name, **params):
+
+    def __init__(self, database_name:str, **params: dict):
         self.database_name = database_name
         self.params = params
         self.conn = psycopg2.connect(dbname=self.database_name, **self.params)
@@ -11,7 +13,7 @@ class DBManager:
         """Функция для закрытия соединения с базой данных"""
         self.conn.close()
 
-    def get_companies_and_vacancies_count(self):
+    def get_companies_and_vacancies_count(self)-> list[tuple]:
         """Метод получает список всех компаний и количество вакансий у каждой компании"""
         with self.conn.cursor() as cur:
             cur.execute(
@@ -25,8 +27,7 @@ class DBManager:
             data = cur.fetchall()
         return data
 
-
-    def get_all_vacancies(self):
+    def get_all_vacancies(self)-> list[tuple]:
         """Метод получает список всех вакансий с указанием названия компании,
         названия вакансии и зарплаты и ссылки на вакансию"""
         with self.conn.cursor() as cur:
@@ -37,11 +38,11 @@ class DBManager:
                 LEFT JOIN employers
                 USING(employer_id)
                 """
-                )
+            )
             data = cur.fetchall()
         return data
 
-    def get_avg_salary(self):
+    def get_avg_salary(self)-> list[tuple]:
         """Метод получает среднюю зарплату по вакансиям"""
         with self.conn.cursor() as cur:
             cur.execute(
@@ -52,7 +53,7 @@ class DBManager:
             data = cur.fetchall()
         return data
 
-    def get_vacancies_with_higher_salary(self):
+    def get_vacancies_with_higher_salary(self)-> list[tuple]:
         """Метод получает список всех вакансий, у которых зарплата выше средней по всем вакансиям"""
         with self.conn.cursor() as cur:
             cur.execute(
@@ -67,7 +68,7 @@ class DBManager:
             data = cur.fetchall()
         return data
 
-    def get_vacancies_with_keyword(self, keyword):
+    def get_vacancies_with_keyword(self, keyword)-> list[tuple]:
         """Метод получает список всех вакансий, в названии которых содержатся переданные в метод слова"""
         with self.conn.cursor() as cur:
             cur.execute(
@@ -81,5 +82,3 @@ class DBManager:
             )
             data = cur.fetchall()
         return data
-
-
